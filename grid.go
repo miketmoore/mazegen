@@ -34,18 +34,6 @@ func NewGrid(rows, columns int, random *rand.Rand) (*Grid, error) {
 	return grid, nil
 }
 
-func (grid *Grid) ForEachRow(
-	callback func(row []*Cell, rowIndex int),
-) {
-	for rowIndex, row := range grid.Cells {
-		rowToReturn := []*Cell{}
-		for _, cell := range row {
-			rowToReturn = append(rowToReturn, cell)
-		}
-		callback(rowToReturn, rowIndex)
-	}
-}
-
 func (grid *Grid) Cell(coordinates *Coordinates) *Cell {
 	row := coordinates.Y
 	if row >= 0 && row < len(grid.Cells) {
