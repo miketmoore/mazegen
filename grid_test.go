@@ -98,7 +98,7 @@ func TestCell(t *testing.T) {
 	}
 }
 
-func TestAdjacentCoordinates(t *testing.T) {
+func TestAdjacentCoordinatesSouthIsDefined(t *testing.T) {
 	grid := buildGrid(t, 2, 2)
 
 	got := grid.AdjacentCoordinates(
@@ -121,4 +121,46 @@ func TestAdjacentCoordinates(t *testing.T) {
 	if got.X != 0 {
 		t.Errorf("response has unexpected X value=%d", got.X)
 	}
+}
+
+func TestAdjacentCoordinatesEastIsDefined(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	got := grid.AdjacentCoordinates(
+		mazegen.East,
+		&mazegen.Coordinates{
+			Y: 0,
+			X: 0,
+		},
+	)
+
+	if got == nil {
+		t.Error("response is nil which is unexpected")
+		return
+	}
+
+	if got.Y != 0 {
+		t.Errorf("response has unexpected Y value=%d", got.Y)
+	}
+
+	if got.X != 1 {
+		t.Errorf("response has unexpected X value=%d", got.X)
+	}
+}
+
+func TestAdjacentCoordinatesWestIsNil(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	got := grid.AdjacentCoordinates(
+		mazegen.West,
+		&mazegen.Coordinates{
+			Y: 0,
+			X: 0,
+		},
+	)
+
+	if got != nil {
+		t.Error("response is not nil which is unexpected")
+	}
+
 }
