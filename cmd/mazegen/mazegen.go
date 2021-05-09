@@ -1,10 +1,21 @@
 package main
 
-import "github.com/miketmoore/mazegen"
+import (
+	"fmt"
+	"os"
+
+	"github.com/miketmoore/mazegen"
+)
 
 func main() {
 	rows := 10
 	cols := 10
 	verbose := false
-	mazegen.BuildMaze(rows, cols, verbose)
+	grid, err := mazegen.BuildMaze(rows, cols, verbose)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(0)
+	}
+
+	fmt.Println(grid)
 }
