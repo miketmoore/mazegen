@@ -441,3 +441,91 @@ func TestIsWallAvailableReturnsFalse(t *testing.T) {
 		}
 	}
 }
+
+func TestAvailableCellWalls(t *testing.T) {
+
+	tests := []struct {
+		grid        *mazegen.Grid
+		cell        *mazegen.Cell
+		coordinates *mazegen.Coordinates
+		expected    []mazegen.DirectionValue
+	}{
+		{
+			grid: buildGrid(t, 2, 2),
+			cell: mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{
+				Y: 0,
+				X: 0,
+			},
+			expected: []mazegen.DirectionValue{
+				mazegen.East,
+				mazegen.South,
+			},
+		},
+		{
+			grid: buildGrid(t, 2, 2),
+			cell: mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{
+				Y: 1,
+				X: 0,
+			},
+			expected: []mazegen.DirectionValue{
+				mazegen.North,
+				mazegen.East,
+			},
+		},
+		{
+			grid: buildGrid(t, 2, 2),
+			cell: mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{
+				Y: 0,
+				X: 1,
+			},
+			expected: []mazegen.DirectionValue{
+				mazegen.South,
+				mazegen.West,
+			},
+		},
+		{
+			grid: buildGrid(t, 2, 2),
+			cell: mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{
+				Y: 1,
+				X: 1,
+			},
+			expected: []mazegen.DirectionValue{
+				mazegen.North,
+				mazegen.West,
+			},
+		},
+		{
+			grid: buildGrid(t, 3, 3),
+			cell: mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{
+				Y: 1,
+				X: 1,
+			},
+			expected: []mazegen.DirectionValue{
+				mazegen.North,
+				mazegen.East,
+				mazegen.South,
+				mazegen.West,
+			},
+		},
+	}
+
+	for index, test := range tests {
+		got := test.grid.AvailableCellWalls(
+			test.cell,
+			test.coordinates,
+		)
+		if len(got) != len(test.expected) {
+			t.Errorf("test failed index=%d", index)
+		}
+		for i := 0; i < len(test.expected); i++ {
+			if got[i] != test.expected[i] {
+				t.Errorf("test failed index=%d", index)
+			}
+		}
+	}
+}
