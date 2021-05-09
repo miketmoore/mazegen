@@ -164,3 +164,54 @@ func TestAdjacentCoordinatesWestIsNil(t *testing.T) {
 	}
 
 }
+
+func TestAdjacentCellSouthIsDefined(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	got := grid.AdjacentCell(
+		mazegen.South,
+		&mazegen.Coordinates{
+			Y: 0,
+			X: 0,
+		},
+	)
+
+	if got == nil {
+		t.Error("response is nil which is unexpected")
+		return
+	}
+}
+
+func TestAdjacentCellEastIsDefined(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	got := grid.AdjacentCell(
+		mazegen.East,
+		&mazegen.Coordinates{
+			Y: 0,
+			X: 0,
+		},
+	)
+
+	if got == nil {
+		t.Error("response is nil which is unexpected")
+		return
+	}
+}
+
+func TestAdjacentCellWestIsNil(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	got := grid.AdjacentCell(
+		mazegen.West,
+		&mazegen.Coordinates{
+			Y: 0,
+			X: 0,
+		},
+	)
+
+	if got != nil {
+		t.Error("response is not nil which is unexpected")
+		return
+	}
+}
