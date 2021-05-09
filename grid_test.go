@@ -384,3 +384,60 @@ func TestIsWallAvailableReturnsTrue(t *testing.T) {
 		}
 	}
 }
+
+func TestIsWallAvailableReturnsFalse(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	responses := []bool{
+		// Top left
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 0, X: 0},
+			mazegen.West,
+			mazegen.NewCell(),
+		),
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 0, X: 0},
+			mazegen.North,
+			mazegen.NewCell(),
+		),
+		// Top right
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 0, X: 1},
+			mazegen.East,
+			mazegen.NewCell(),
+		),
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 0, X: 1},
+			mazegen.North,
+			mazegen.NewCell(),
+		),
+		// Bottom left
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 1, X: 0},
+			mazegen.West,
+			mazegen.NewCell(),
+		),
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 1, X: 0},
+			mazegen.South,
+			mazegen.NewCell(),
+		),
+		// Bottom right
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 1, X: 1},
+			mazegen.East,
+			mazegen.NewCell(),
+		),
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 1, X: 1},
+			mazegen.South,
+			mazegen.NewCell(),
+		),
+	}
+
+	for index, value := range responses {
+		if value == true {
+			t.Errorf("response is unexpected for index=%d", index)
+		}
+	}
+}
