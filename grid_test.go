@@ -216,21 +216,6 @@ func TestAdjacentCellWestIsNil(t *testing.T) {
 	}
 }
 
-func TestCoordinatesInBoundsReturnsTrue(t *testing.T) {
-	grid := buildGrid(t, 2, 2)
-
-	got := grid.CoordinatesInBounds(
-		&mazegen.Coordinates{
-			Y: 1,
-			X: 1,
-		},
-	)
-
-	if got == false {
-		t.Error("response is false but should be true")
-	}
-}
-
 func TestCoordinatesInBounds(t *testing.T) {
 	grid := buildGrid(t, 2, 2)
 
