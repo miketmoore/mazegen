@@ -305,3 +305,82 @@ func TestColumnInBoundsReturnsTrue(t *testing.T) {
 		}
 	}
 }
+
+func TestRandomCoordinates(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	for i := 0; i < 100; i++ {
+		got := grid.RandomCoordinates()
+		if got == nil {
+			t.Errorf("response is nil which is unexpected index=%d", i)
+		}
+	}
+}
+
+func TestRandomCell(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	for i := 0; i < 100; i++ {
+		got := grid.RandomCell()
+		if got == nil {
+			t.Errorf("response is nil which is unexpected index=%d", i)
+		}
+	}
+}
+
+func TestIsWallAvailableReturnsTrue(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	responses := []bool{
+		// Top left
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 0, X: 0},
+			mazegen.East,
+			mazegen.NewCell(),
+		),
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 0, X: 0},
+			mazegen.South,
+			mazegen.NewCell(),
+		),
+		// Top right
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 0, X: 1},
+			mazegen.West,
+			mazegen.NewCell(),
+		),
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 0, X: 1},
+			mazegen.South,
+			mazegen.NewCell(),
+		),
+		// Bottom left
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 1, X: 0},
+			mazegen.East,
+			mazegen.NewCell(),
+		),
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 1, X: 0},
+			mazegen.North,
+			mazegen.NewCell(),
+		),
+		// Bottom right
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 1, X: 1},
+			mazegen.West,
+			mazegen.NewCell(),
+		),
+		grid.IsWallAvailable(
+			&mazegen.Coordinates{Y: 1, X: 1},
+			mazegen.North,
+			mazegen.NewCell(),
+		),
+	}
+
+	for index, value := range responses {
+		if value == false {
+			t.Errorf("response is unexpected for index=%d", index)
+		}
+	}
+}
