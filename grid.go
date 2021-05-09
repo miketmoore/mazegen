@@ -7,10 +7,9 @@ import (
 )
 
 type Grid struct {
-	Rows, Columns   int
-	Cells           [][]string
-	CellDataManager *CellDataManager
-	Random          *rand.Rand
+	Rows, Columns int
+	Cells         [][]*Cell
+	Random        *rand.Rand
 }
 
 func NewRandom() *rand.Rand {
@@ -19,23 +18,16 @@ func NewRandom() *rand.Rand {
 
 func NewGrid(rows, columns int, random *rand.Rand) (*Grid, error) {
 	grid := &Grid{
-		Rows:            rows,
-		Columns:         columns,
-		CellDataManager: NewCellDataManager(),
-		Random:          random,
-		Cells:           make([][]string, rows),
+		Rows:    rows,
+		Columns: columns,
+		Random:  random,
+		Cells:   make([][]*Cell, rows),
 	}
 
 	for row := 0; row < rows; row++ {
-		grid.Cells[row] = make([]string, columns)
+		grid.Cells[row] = make([]*Cell, columns)
 		for column := 0; column < columns; column++ {
-			cell := NewCell()
-			cellData, err := grid.CellDataManager.Data(cell)
-			if err != nil {
-				fmt.Println(err)
-				return nil, fmt.Errorf("error getting cell data")
-			}
-			grid.Cells[row][column] = cellData
+			grid.Cells[row][column] = NewCell()
 		}
 	}
 
@@ -47,8 +39,7 @@ func (grid *Grid) ForEachRow(
 ) {
 	for rowIndex, row := range grid.Cells {
 		rowToReturn := []*Cell{}
-		for _, cellData := range row {
-			cell := grid.CellDataManager.NewFromData(cellData)
+		for _, cell := range row {
 			rowToReturn = append(rowToReturn, cell)
 		}
 		callback(rowToReturn, rowIndex)
@@ -61,8 +52,7 @@ func (grid *Grid) Cell(coordinates *Coordinates) *Cell {
 		cellsRow := grid.Cells[row]
 		column := coordinates.X
 		if column >= 0 && column < len(cellsRow) {
-			data := cellsRow[column]
-			return grid.CellDataManager.NewFromData(data)
+			return cellsRow[column]
 		}
 	}
 	return nil
@@ -132,8 +122,7 @@ func (grid *Grid) RandomCoordinates() *Coordinates {
 
 func (grid *Grid) RandomCell() *Cell {
 	coordinates := grid.RandomCoordinates()
-	cellData := grid.Cells[coordinates.Y][coordinates.X]
-	return grid.CellDataManager.NewFromData(cellData)
+	return grid.Cells[coordinates.Y][coordinates.X]
 }
 
 func (grid *Grid) IsWallAvailable(
@@ -170,14 +159,15 @@ func (grid *Grid) AvailableCellWalls(
 	return response
 }
 
-func (grid *Grid) UpdateCell(coordinates *Coordinates, cell *Cell) error {
-	data, err := grid.CellDataManager.Data(cell)
-	if err != nil {
-		fmt.Println(err)
-		return fmt.Errorf("error updating cell")
-	}
-	grid.Cells[coordinates.Y][coordinates.X] = data
-	return nil
+func (grid *Grid) UpdateCell(coordinates *Coordinates, cell *Cell) {
+	// data, err := grid.CellDataManager.Data(cell)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	return fmt.Errorf("error updating cell")
+	// }
+	// grid.Cells[coordinates.Y][coordinates.X] = data
+	// return nil
+	grid.Cells[coordinates.Y][coordinates.X] = cell
 }
 
 func (grid *Grid) CarveCellWall(
@@ -189,10 +179,6 @@ func (grid *Grid) CarveCellWall(
 		return fmt.Errorf("cell not found")
 	}
 	cell.CarveWall(direction)
-	err := grid.UpdateCell(coordinates, cell)
-	if err != nil {
-		fmt.Println(err)
-		return fmt.Errorf("error updating cell")
-	}
+	grid.UpdateCell(coordinates, cell)
 	return nil
 }
