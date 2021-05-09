@@ -231,22 +231,33 @@ func TestCoordinatesInBoundsReturnsTrue(t *testing.T) {
 	}
 }
 
-func TestCoordinatesInBoundsReturnsFalse(t *testing.T) {
+func TestCoordinatesInBounds(t *testing.T) {
 	grid := buildGrid(t, 2, 2)
 
-	got := grid.CoordinatesInBounds(
-		&mazegen.Coordinates{
-			Y: 2,
-			X: 2,
-		},
-	)
+	tests := []struct {
+		x, y     int
+		expected bool
+	}{
+		{x: -1, y: -1, expected: false},
+		{x: 0, y: 0, expected: true},
+		{x: 1, y: 0, expected: true},
+		{x: 1, y: 1, expected: true},
+		{x: 0, y: 1, expected: true},
+		{x: 2, y: 2, expected: false},
+	}
 
-	if got == true {
-		t.Error("response is true but should be false")
+	for index, test := range tests {
+		got := grid.CoordinatesInBounds(&mazegen.Coordinates{
+			X: test.x,
+			Y: test.y,
+		})
+		if got != test.expected {
+			t.Errorf("test failed index=%d", index)
+		}
 	}
 }
 
-func TestRowInBoundsReturnsTrue(t *testing.T) {
+func TestRowInBounds(t *testing.T) {
 	grid := buildGrid(t, 2, 2)
 
 	tests := []struct {
@@ -267,7 +278,7 @@ func TestRowInBoundsReturnsTrue(t *testing.T) {
 	}
 }
 
-func TestColumnInBoundsReturnsTrue(t *testing.T) {
+func TestColumnInBounds(t *testing.T) {
 	grid := buildGrid(t, 2, 2)
 
 	tests := []struct {
