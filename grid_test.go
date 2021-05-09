@@ -245,3 +245,63 @@ func TestCoordinatesInBoundsReturnsFalse(t *testing.T) {
 		t.Error("response is true but should be false")
 	}
 }
+
+func TestRowInBoundsReturnsFalse(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	responses := []bool{
+		grid.RowInBounds(-1),
+		grid.RowInBounds(2),
+	}
+
+	for index, value := range responses {
+		if value == true {
+			t.Errorf("response is unexpected index=%d", index)
+		}
+	}
+}
+
+func TestRowInBoundsReturnsTrue(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	responses := []bool{
+		grid.RowInBounds(0),
+		grid.RowInBounds(1),
+	}
+
+	for index, value := range responses {
+		if value == false {
+			t.Errorf("response is unexpected index=%d", index)
+		}
+	}
+}
+
+func TestColumnInBoundsReturnsFalse(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	responses := []bool{
+		grid.ColumnInBounds(-1),
+		grid.ColumnInBounds(2),
+	}
+
+	for index, value := range responses {
+		if value == true {
+			t.Errorf("response is unexpected index=%d", index)
+		}
+	}
+}
+
+func TestColumnInBoundsReturnsTrue(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	responses := []bool{
+		grid.ColumnInBounds(0),
+		grid.ColumnInBounds(1),
+	}
+
+	for index, value := range responses {
+		if value == false {
+			t.Errorf("response is unexpected index=%d", index)
+		}
+	}
+}
