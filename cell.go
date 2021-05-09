@@ -23,7 +23,7 @@ func (cell *Cell) CarveWall(direction DirectionValue) {
 }
 
 func (cell *Cell) IsWallSolid(direction DirectionValue) bool {
-	return cell.Walls[direction] == true
+	return cell.Walls[direction]
 }
 
 func (cell *Cell) OppositeDirection(direction DirectionValue) DirectionValue {
