@@ -328,116 +328,144 @@ func TestRandomCell(t *testing.T) {
 	}
 }
 
-func TestIsWallAvailableReturnsTrue(t *testing.T) {
-	grid := buildGrid(t, 2, 2)
+func TestIsWallAvailable(t *testing.T) {
 
-	responses := []bool{
-		// Top left
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 0, X: 0},
-			mazegen.East,
-			mazegen.NewCell(),
-		),
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 0, X: 0},
-			mazegen.South,
-			mazegen.NewCell(),
-		),
-		// Top right
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 0, X: 1},
-			mazegen.West,
-			mazegen.NewCell(),
-		),
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 0, X: 1},
-			mazegen.South,
-			mazegen.NewCell(),
-		),
-		// Bottom left
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 1, X: 0},
-			mazegen.East,
-			mazegen.NewCell(),
-		),
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 1, X: 0},
-			mazegen.North,
-			mazegen.NewCell(),
-		),
-		// Bottom right
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 1, X: 1},
-			mazegen.West,
-			mazegen.NewCell(),
-		),
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 1, X: 1},
-			mazegen.North,
-			mazegen.NewCell(),
-		),
+	tests := []struct {
+		grid        *mazegen.Grid
+		cell        *mazegen.Cell
+		coordinates *mazegen.Coordinates
+		direction   mazegen.DirectionValue
+		expected    bool
+	}{
+		// top left
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 0, X: 0},
+			direction:   mazegen.North,
+			expected:    false,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 0, X: 0},
+			direction:   mazegen.East,
+			expected:    true,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 0, X: 0},
+			direction:   mazegen.South,
+			expected:    true,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 0, X: 0},
+			direction:   mazegen.West,
+			expected:    false,
+		},
+
+		// top right
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 0, X: 1},
+			direction:   mazegen.North,
+			expected:    false,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 0, X: 1},
+			direction:   mazegen.East,
+			expected:    false,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 0, X: 1},
+			direction:   mazegen.South,
+			expected:    true,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 0, X: 1},
+			direction:   mazegen.West,
+			expected:    true,
+		},
+
+		// bottom left
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 1, X: 0},
+			direction:   mazegen.North,
+			expected:    true,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 1, X: 0},
+			direction:   mazegen.East,
+			expected:    true,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 1, X: 0},
+			direction:   mazegen.South,
+			expected:    false,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 1, X: 0},
+			direction:   mazegen.West,
+			expected:    false,
+		},
+
+		// bottom right
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 1, X: 1},
+			direction:   mazegen.North,
+			expected:    true,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 1, X: 1},
+			direction:   mazegen.East,
+			expected:    false,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 1, X: 1},
+			direction:   mazegen.West,
+			expected:    true,
+		},
+		{
+			grid:        buildGrid(t, 2, 2),
+			cell:        mazegen.NewCell(),
+			coordinates: &mazegen.Coordinates{Y: 1, X: 1},
+			direction:   mazegen.South,
+			expected:    false,
+		},
 	}
 
-	for index, value := range responses {
-		if value == false {
-			t.Errorf("response is unexpected for index=%d", index)
-		}
-	}
-}
-
-func TestIsWallAvailableReturnsFalse(t *testing.T) {
-	grid := buildGrid(t, 2, 2)
-
-	responses := []bool{
-		// Top left
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 0, X: 0},
-			mazegen.West,
-			mazegen.NewCell(),
-		),
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 0, X: 0},
-			mazegen.North,
-			mazegen.NewCell(),
-		),
-		// Top right
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 0, X: 1},
-			mazegen.East,
-			mazegen.NewCell(),
-		),
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 0, X: 1},
-			mazegen.North,
-			mazegen.NewCell(),
-		),
-		// Bottom left
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 1, X: 0},
-			mazegen.West,
-			mazegen.NewCell(),
-		),
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 1, X: 0},
-			mazegen.South,
-			mazegen.NewCell(),
-		),
-		// Bottom right
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 1, X: 1},
-			mazegen.East,
-			mazegen.NewCell(),
-		),
-		grid.IsWallAvailable(
-			&mazegen.Coordinates{Y: 1, X: 1},
-			mazegen.South,
-			mazegen.NewCell(),
-		),
-	}
-
-	for index, value := range responses {
-		if value == true {
-			t.Errorf("response is unexpected for index=%d", index)
+	for index, test := range tests {
+		got := test.grid.IsWallAvailable(
+			test.coordinates,
+			test.direction,
+			test.cell,
+		)
+		if got != test.expected {
+			t.Errorf("test failed index=%d", index)
 		}
 	}
 }
