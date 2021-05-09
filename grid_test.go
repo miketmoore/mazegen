@@ -97,3 +97,28 @@ func TestCell(t *testing.T) {
 		t.Error("cell is not nil which is unexpected")
 	}
 }
+
+func TestAdjacentCoordinates(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	got := grid.AdjacentCoordinates(
+		mazegen.South,
+		&mazegen.Coordinates{
+			Y: 0,
+			X: 0,
+		},
+	)
+
+	if got == nil {
+		t.Error("response is nil which is unexpected")
+		return
+	}
+
+	if got.Y != 1 {
+		t.Errorf("response has unexpected Y value=%d", got.Y)
+	}
+
+	if got.X != 0 {
+		t.Errorf("response has unexpected X value=%d", got.X)
+	}
+}

@@ -46,7 +46,10 @@ func (grid *Grid) Cell(coordinates *Coordinates) *Cell {
 	return nil
 }
 
-func (grid *Grid) AdjacentCoordinates(direction DirectionValue, coordinates *Coordinates) *Coordinates {
+func (grid *Grid) AdjacentCoordinates(
+	direction DirectionValue,
+	coordinates *Coordinates,
+) *Coordinates {
 	row := coordinates.Y
 	column := coordinates.X
 	switch direction {
