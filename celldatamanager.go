@@ -32,11 +32,13 @@ func buildCellCombinations() [32]string {
 
 	// Visited
 	for comboIndex, combo := range wallCombinations {
-		cellCombinations[comboIndex] = fmt.Sprintf("1%s", combo)
+		value := fmt.Sprintf("1%s", combo)
+		cellCombinations[comboIndex] = value
 	}
 	// Not visited
 	for comboIndex, combo := range wallCombinations {
-		cellCombinations[comboIndex] = fmt.Sprintf("0%s", combo)
+		value := fmt.Sprintf("0%s", combo)
+		cellCombinations[comboIndex+16] = value
 	}
 
 	return cellCombinations

@@ -26,6 +26,8 @@ func NewGrid(rows, columns int, random *rand.Rand) (*Grid, error) {
 		Random:          random,
 	}
 
+	fmt.Println(grid.CellDataManager.CellCombinations)
+
 	cells := make([][]string, rows)
 
 	for row := 0; row < rows; row++ {
