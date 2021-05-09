@@ -19,15 +19,18 @@ func NewRandom() *rand.Rand {
 
 func NewGrid(rows, columns int, random *rand.Rand) (*Grid, error) {
 	grid := &Grid{
-		Rows:            rows,
-		Columns:         columns,
-		Cells:           [][]string{},
+		Rows:    rows,
+		Columns: columns,
+		// Cells:           [][]string{},
 		CellDataManager: NewCellDataManager(),
 		Random:          random,
 	}
 
+	cells := make([][]string, rows)
+
 	for row := 0; row < rows; row++ {
-		grid.Cells[row] = []string{}
+		// grid.Cells[row] = []string{}
+		cells[row] = make([]string, columns)
 		for column := 0; column < columns; column++ {
 			cell := NewCell()
 			cellData, err := grid.CellDataManager.Data(cell)
@@ -38,6 +41,8 @@ func NewGrid(rows, columns int, random *rand.Rand) (*Grid, error) {
 			grid.Cells[row][column] = cellData
 		}
 	}
+
+	grid.Cells = cells
 
 	return grid, nil
 }
