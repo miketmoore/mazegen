@@ -10,8 +10,8 @@ import (
 func main() {
 	rows := 10
 	cols := 10
-	verbose := false
-	grid, err := mazegen.BuildMaze(rows, cols, verbose)
+	random := mazegen.NewRandom()
+	grid, err := mazegen.BuildMaze(rows, cols, random)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(0)
