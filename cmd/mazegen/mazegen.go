@@ -1,5 +1,7 @@
 package main
 
+import "github.com/miketmoore/mazegen"
+
 func main() {
 	rows := 10
 	cols := 10
