@@ -52,3 +52,48 @@ func TestNewGrid(t *testing.T) {
 		}
 	}
 }
+
+func TestCell(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+	cell := grid.Cell(&mazegen.Coordinates{
+		Y: 0,
+		X: 0,
+	})
+	if cell == nil {
+		t.Error("cell is nil which is unexpected")
+	}
+
+	cell = grid.Cell(&mazegen.Coordinates{
+		Y: 0,
+		X: 1,
+	})
+	if cell == nil {
+		t.Error("cell is nil which is unexpected")
+	}
+
+	cell = grid.Cell(&mazegen.Coordinates{
+		Y: 1,
+		X: 0,
+	})
+	if cell == nil {
+		t.Error("cell is nil which is unexpected")
+	}
+
+	cell = grid.Cell(&mazegen.Coordinates{
+		Y: 1,
+		X: 1,
+	})
+	if cell == nil {
+		t.Error("cell is nil which is unexpected")
+	}
+
+	// Test getting a cell out of bounds
+	// should return nil
+	cell = grid.Cell(&mazegen.Coordinates{
+		Y: 2,
+		X: 2,
+	})
+	if cell != nil {
+		t.Error("cell is not nil which is unexpected")
+	}
+}
