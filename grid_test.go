@@ -535,3 +535,22 @@ func TestAvailableCellWalls(t *testing.T) {
 		}
 	}
 }
+
+func TestUpdateCell(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	coordinates := mazegen.NewCoordinates(0, 0)
+
+	cell := mazegen.NewCell()
+	cell.Visited = true
+
+	grid.SetCell(
+		coordinates,
+		cell,
+	)
+
+	cell = grid.Cell(coordinates)
+	if cell.Visited != true {
+		t.Error("test failed")
+	}
+}

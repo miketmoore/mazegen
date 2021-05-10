@@ -150,14 +150,7 @@ func (grid *Grid) AvailableCellWalls(
 	return response
 }
 
-func (grid *Grid) UpdateCell(coordinates *Coordinates, cell *Cell) {
-	// data, err := grid.CellDataManager.Data(cell)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return fmt.Errorf("error updating cell")
-	// }
-	// grid.Cells[coordinates.Y][coordinates.X] = data
-	// return nil
+func (grid *Grid) SetCell(coordinates *Coordinates, cell *Cell) {
 	grid.Cells[coordinates.Y][coordinates.X] = cell
 }
 
@@ -170,6 +163,6 @@ func (grid *Grid) CarveCellWall(
 		return fmt.Errorf("cell not found")
 	}
 	cell.CarveWall(direction)
-	grid.UpdateCell(coordinates, cell)
+	grid.SetCell(coordinates, cell)
 	return nil
 }
