@@ -5,32 +5,6 @@ import (
 	"math/rand"
 )
 
-type History struct {
-	coordinates []*Coordinates
-}
-
-func NewHistory() *History {
-	return &History{
-		coordinates: []*Coordinates{},
-	}
-}
-
-func (history *History) Length() int {
-	return len(history.coordinates)
-}
-
-func (history *History) GetLast() *Coordinates {
-	return history.coordinates[history.Length()-1]
-}
-
-func (history *History) Push(coordinates *Coordinates) {
-	history.coordinates = append(history.coordinates, coordinates)
-}
-
-func (history *History) DeleteLast() {
-	history.coordinates = history.coordinates[:history.Length()-1]
-}
-
 func BuildMaze(rows, columns int, random *rand.Rand) (*Grid, error) {
 	grid, err := NewGrid(rows, columns, random)
 	if err != nil {
