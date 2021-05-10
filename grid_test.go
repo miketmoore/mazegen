@@ -554,3 +554,23 @@ func TestUpdateCell(t *testing.T) {
 		t.Error("test failed")
 	}
 }
+
+func TestCarveCellWall(t *testing.T) {
+	grid := buildGrid(t, 2, 2)
+
+	coordinates := mazegen.NewCoordinates(0, 0)
+
+	err := grid.CarveCellWall(
+		coordinates,
+		mazegen.North,
+	)
+
+	if err != nil {
+		t.Error("error is unexpected")
+	}
+
+	cell := grid.Cell(coordinates)
+	if cell.IsWallSolid(mazegen.North) {
+		t.Error("wall should not be solid")
+	}
+}
