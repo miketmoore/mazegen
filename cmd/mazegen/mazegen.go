@@ -8,8 +8,8 @@ import (
 )
 
 func main() {
-	rows := 10
-	cols := 10
+	rows := 2
+	cols := 2
 	random := mazegen.NewRandom()
 	grid, err := mazegen.BuildMaze(rows, cols, random)
 	if err != nil {
@@ -17,5 +17,9 @@ func main() {
 		os.Exit(0)
 	}
 
-	fmt.Println(grid)
+	for rowIndex, row := range grid.Cells {
+		for columnIndex, cell := range row {
+			fmt.Println(rowIndex, columnIndex, cell)
+		}
+	}
 }
